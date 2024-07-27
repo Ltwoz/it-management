@@ -1,6 +1,6 @@
 "use client";
 
-import { List } from "lucide-react";
+import { Calendar, List, UsersRound } from "lucide-react";
 
 import SidebarItem from "./sidebar-item";
 
@@ -9,6 +9,16 @@ const adminRoutes = [
     icon: List,
     label: "ระดับชั้น",
     href: "/dashboard/level",
+  },
+  {
+    icon: Calendar,
+    label: "ตารางเรียน",
+    href: "/dashboard/class-schedule",
+  },
+  {
+    icon: UsersRound,
+    label: "นักศึกษา",
+    href: "/dashboard/students",
   },
 ];
 
