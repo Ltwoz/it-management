@@ -8,12 +8,12 @@ const adminRoutes = [
   {
     icon: List,
     label: "ระดับชั้น",
-    href: "/dashboard/level",
+    href: "/dashboard/levels",
   },
   {
     icon: Calendar,
     label: "ตารางเรียน",
-    href: "/dashboard/class-schedule",
+    href: "/dashboard/class-schedules",
   },
   {
     icon: UsersRound,

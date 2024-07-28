@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/form";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import Image from "next/image";
 
 const loginFormSchema = z.object({
   email: z
@@ -49,22 +51,36 @@ export default function Login() {
   const onSubmit = async ({ email, password }: FormData) => {
     const supabase = createClient();
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    
-    router.replace("/");
+
+    console.log("data : ", data);
+
+    if (error) {
+      console.error("Error logging out:", error.message);
+      toast.error(error?.message);
+      return;
+    }
+
+    if (data.user.aud === "authenticated") {
+      toast.success("เข้าสู่ระบบสำเร็จ");
+      router.replace("/");
+    }
   };
 
   return (
-    <div
-      className="flex items-center w-full justify-center min-h-screen bg-cover"
-      style={{
-        backgroundImage:
-          "url(https://steamuserimages-a.akamaihd.net/ugc/940586530515504757/CDDE77CB810474E1C07B945E40AE4713141AFD76/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false)",
-      }}
-    >
+    <div className="flex items-center w-full justify-center min-h-screen bg-cover">
+      <Image
+        alt="Background"
+        src={"https://it.cmtc.ac.th/wp-content/uploads/2024/07/895663_0.jpg"}
+        quality={100}
+        fill
+        priority
+        sizes="100vw"
+        className="-z-50 object-cover"
+      />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card className="max-w-sm w-full">

@@ -3,10 +3,9 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
 
 export const getLevels = async (supabase: SupabaseClient<Database>) => {
-  const query = supabase.from("levels").select(`
-    *,
-    class_schedules (*)
-  `);
+  const query = supabase
+    .from("levels")
+    .select(`*, class_schedules(*)`)
 
   return query;
 };
