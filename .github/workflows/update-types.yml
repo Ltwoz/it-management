@@ -23,8 +23,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 16
-      - run: npm run update-types
-        working-directory: src
+      - run: cd src && npm install && npm run update-types
       - name: check for file changes
         id: git_status
         run: |
