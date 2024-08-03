@@ -7,13 +7,13 @@ export default async function ClassSchedule() {
 
   const { data: levels } = await getLevels(supabase);
 
-  console.log(levels);
-
   return (
     <div className="p-6">
       <div className="flex flex-col gap-y-2">
         <h1 className="text-2xl font-medium">ตารางเรียน</h1>
-        <span className="text-base text-slate-700">จัดการตารางเรียน ตามระดับชั้นและปีการศึกษา</span>
+        <span className="text-base text-slate-700">
+          จัดการตารางเรียน ตามระดับชั้นและปีการศึกษา
+        </span>
       </div>
       <div className="mt-4">
         <DataGrid levels={levels} />

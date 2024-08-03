@@ -4,14 +4,14 @@ import { AsyncReturnType } from "@/lib/get-return-type";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
 
-export const getLevels = async (supabase: SupabaseClient<Database>) => {
+export const getStudents = async (supabase: SupabaseClient<Database>) => {
   const query = supabase
-    .from("levels")
-    .select(`*, class_schedules(*)`)
+    .from("students")
+    .select(`*, levels(*)`)
 
   return query;
 };
 
-export type Level = NonNullable<
-  AsyncReturnType<typeof getLevels>["data"]
+export type Student = NonNullable<
+  AsyncReturnType<typeof getStudents>["data"]
 >[number];
