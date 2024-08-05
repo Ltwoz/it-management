@@ -52,8 +52,11 @@ export default function DataTable<TData, TValue>({
     initialState: {
       columnVisibility: {
         level: false,
-      }
-    }
+      },
+      pagination: {
+        pageSize: 25,
+      },
+    },
   });
 
   return (
@@ -85,7 +88,7 @@ export default function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="py-2">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -107,23 +110,29 @@ export default function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          ย้อนกลับ
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          ถัดไป
-        </Button>
+      <div className="flex items-center justify-between space-x-2 py-4">
+        <div className="text-sm opacity-80">
+          ค้นพบ {table.getPaginationRowModel().rows.length} ข้อมูล จาก{" "}
+          {table.getFilteredRowModel().rows.length} ข้อมูล
+        </div>
+        <div className="flex items-center justify-end space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            ย้อนกลับ
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            ถัดไป
+          </Button>
+        </div>
       </div>
     </>
   );

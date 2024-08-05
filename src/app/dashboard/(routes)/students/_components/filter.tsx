@@ -14,6 +14,8 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { useCallback, useEffect, useState } from "react";
 import { Tables } from "@/types/supabase";
+import { Button } from "@/components/ui/button";
+import { RotateCw } from "lucide-react";
 
 interface FilterProps<TData> {
   table: Table<TData>;
@@ -23,6 +25,10 @@ export default function Filter<TData>({ table }: FilterProps<TData>) {
   const supabase = createClient();
 
   const [levels, setLevels] = useState<Tables<"levels">[] | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<string | undefined>(
+    undefined
+  );
+  const [key, setKey] = useState(+new Date());
 
   const getLevels = useCallback(async () => {
     const { data } = await supabase.from("levels").select("*");
@@ -44,6 +50,8 @@ export default function Filter<TData>({ table }: FilterProps<TData>) {
         className="max-w-sm"
       />
       <Select
+        key={key}
+        value={selectedLevel}
         onValueChange={(value) =>
           table.getColumn("level")?.setFilterValue(value)
         }
@@ -61,6 +69,18 @@ export default function Filter<TData>({ table }: FilterProps<TData>) {
           </SelectGroup>
         </SelectContent>
       </Select>
+      <Button
+        className="group px-3"
+        variant="outline"
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedLevel(undefined);
+          setKey(+new Date());
+          table.resetColumnFilters();
+        }}
+      >
+        <RotateCw className="h-5 w-5 transition duration-700 group-hover:rotate-[360deg]" />
+      </Button>
     </div>
   );
 }
