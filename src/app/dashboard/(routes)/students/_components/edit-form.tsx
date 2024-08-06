@@ -15,7 +15,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -24,10 +30,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createClient } from "@/lib/supabase/client";
-import { useCallback, useEffect, useState } from "react";
-import { Tables } from "@/types/supabase";
 import toast from "react-hot-toast";
+import { useLevelsStore } from "@/stores/levels-store";
+import { update } from "../actions/update";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface EditFormProps {
   row: Student;
@@ -36,25 +43,37 @@ interface EditFormProps {
 const formSchema = z.object({
   code: z
     .string()
-    .min(11, { message: "รหัสนักศึกษาต้องมีอย่างน้อย 11 ตัวอักษร" }),
-  name: z.string().min(3, { message: "กรุณากรอก ชื่อ-นามสกุลให้ถูกต้อง" }),
+    .regex(/^\d+$/, { message: "รหัสนักศึกษาต้องประกอบด้วยตัวเลขเท่านั้น" })
+    .length(11, { message: "รหัสนักศึกษาต้องมี 11 หลัก" }),
+  name: z
+    .string()
+    .regex(/^[A-Za-zก-๙]+ [A-Za-zก-๙]+$/, {
+      message: "ชื่อ-นามสกุลต้องประกอบด้วยตัวอักษรเท่านั้น",
+    })
+    .min(3, { message: "กรุณากรอก ชื่อ-นามสกุลให้ถูกต้อง" })
+    .max(50, { message: "ชื่อ-นามสกุลต้องมีความยาวไม่เกิน 50 ตัวอักษร" }),
   level: z.string().min(1, { message: "กรุณาเลือกระดับชั้น" }),
-  email: z.string().email({ message: "กรุณาใส่อีเมล์ที่ถูกต้อง" }),
+  email: z.string().email({ message: "กรุณาใส่อีเมลที่ถูกต้อง" }),
   phone_no: z
     .string()
-    .min(10, { message: "เบอร์โทรศัพท์ต้องมีความยาวอย่างน้อย 10 ตัวอักษร" }),
+    .regex(/^\d+$/, { message: "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง" })
+    .length(10, { message: "เบอร์โทรศัพท์ต้องมี 10 หลัก" }),
 });
 
 export type StudentType = z.infer<typeof formSchema>;
 
 export default function EditForm({ row }: EditFormProps) {
-  const supabase = createClient();
+  // console.log(row);
+  const router = useRouter();
 
-  const [levels, setLevels] = useState<Tables<"levels">[]>();
+  const levels = useLevelsStore((state) => state.levels);
+
+  const [open, setOpen] = useState(false);
 
   const form = useForm<StudentType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    mode: "onChange",
+    values: {
       code: row.code,
       name: row.name,
       level: row.level,
@@ -63,40 +82,43 @@ export default function EditForm({ row }: EditFormProps) {
     },
   });
 
-  const getLevel = useCallback(async () => {
-    try {
-      const { data, error } = await supabase.from("levels").select("*");
-
-      if (error) {
-        throw error;
-      }
-
-      if (data) {
-        setLevels(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [supabase]);
-
-  useEffect(() => {
-    getLevel();
-  }, [getLevel]);
+  const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: StudentType) => {
-    console.log(values);
+    const changedFields = Object.keys(values).reduce((changes, key) => {
+      if (values[key as keyof StudentType] !== row[key as keyof StudentType]) {
+        changes[key as keyof StudentType] = values[key as keyof StudentType];
+      }
+      return changes;
+    }, {} as Partial<StudentType>);
 
-    // if (data) {
-    //   toast.success("Register success");
-    // } else {
-    //   toast.error("Something went wrong");
-    // }
+    if (Object.keys(changedFields).length === 0) {
+      toast("ไม่มีการเปลี่ยนแปลงข้อมูล", { icon: "👹" });
+      setOpen(false);
+      return;
+    }
+
+    try {
+      await update({
+        ...changedFields,
+        id: row.id,
+      });
+
+      toast.success("แก้ไขข้อมูลนักศึกษาแล้ว");
+      router.refresh();
+    } catch {
+      toast.error("เกิดข้อผิดพลาดในการแก้ไขข้อมูล");
+    } finally {
+      setOpen(false);
+    }
   };
 
   return (
     <Dialog
+      open={open}
       onOpenChange={() => {
         form.reset();
+        setOpen((prev) => !prev);
       }}
     >
       <DialogTrigger asChild>
@@ -128,6 +150,9 @@ export default function EditForm({ row }: EditFormProps) {
                         <Input className="col-span-3" {...field} />
                       </div>
                     </FormControl>
+                    <div className="grid grid-cols-4">
+                      <FormMessage className="col-span-3 col-start-2" />
+                    </div>
                   </FormItem>
                 )}
               />
@@ -144,6 +169,9 @@ export default function EditForm({ row }: EditFormProps) {
                         <Input className="col-span-3" {...field} />
                       </div>
                     </FormControl>
+                    <div className="grid grid-cols-4">
+                      <FormMessage className="col-span-3 col-start-2" />
+                    </div>
                   </FormItem>
                 )}
               />
@@ -179,6 +207,9 @@ export default function EditForm({ row }: EditFormProps) {
                         </Select>
                       </div>
                     </FormControl>
+                    <div className="grid grid-cols-4">
+                      <FormMessage className="col-span-3 col-start-2" />
+                    </div>
                   </FormItem>
                 )}
               />
@@ -195,6 +226,9 @@ export default function EditForm({ row }: EditFormProps) {
                         <Input className="col-span-3" {...field} />
                       </div>
                     </FormControl>
+                    <div className="grid grid-cols-4">
+                      <FormMessage className="col-span-3 col-start-2" />
+                    </div>
                   </FormItem>
                 )}
               />
@@ -211,12 +245,17 @@ export default function EditForm({ row }: EditFormProps) {
                         <Input className="col-span-3" {...field} />
                       </div>
                     </FormControl>
+                    <div className="grid grid-cols-4">
+                      <FormMessage className="col-span-3 col-start-2" />
+                    </div>
                   </FormItem>
                 )}
               />
             </div>
             <DialogFooter>
-              <Button type="submit">บันทึก</Button>
+              <Button type="submit" disabled={!isValid || isSubmitting}>
+                บันทึก
+              </Button>
             </DialogFooter>
           </form>
         </Form>

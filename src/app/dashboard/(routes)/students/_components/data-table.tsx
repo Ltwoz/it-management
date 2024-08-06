@@ -33,7 +33,12 @@ export default function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: "code",
+      desc: false,
+    },
+  ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -54,9 +59,10 @@ export default function DataTable<TData, TValue>({
         level: false,
       },
       pagination: {
-        pageSize: 25,
+        pageSize: 10,
       },
     },
+    autoResetPageIndex: false,
   });
 
   return (

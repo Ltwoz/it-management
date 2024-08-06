@@ -1,7 +1,6 @@
 "use client";
 
 import { Table } from "@tanstack/react-table";
-
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -11,33 +10,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createClient } from "@/lib/supabase/client";
-import { useCallback, useEffect, useState } from "react";
-import { Tables } from "@/types/supabase";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
+import { useLevelsStore } from "@/stores/levels-store";
 
 interface FilterProps<TData> {
   table: Table<TData>;
 }
 
 export default function Filter<TData>({ table }: FilterProps<TData>) {
-  const supabase = createClient();
-
-  const [levels, setLevels] = useState<Tables<"levels">[] | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<string | undefined>(
     undefined
   );
   const [key, setKey] = useState(+new Date());
 
-  const getLevels = useCallback(async () => {
-    const { data } = await supabase.from("levels").select("*");
-    setLevels(data);
-  }, [supabase]);
-
-  useEffect(() => {
-    getLevels();
-  }, [getLevels]);
+  const levels = useLevelsStore((state) => state.levels);
 
   return (
     <div className="flex items-center space-x-4 pb-4">
