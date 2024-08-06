@@ -59,7 +59,7 @@ export default function DataTable<TData, TValue>({
         level: false,
       },
       pagination: {
-        pageSize: 10,
+        pageSize: 25,
       },
     },
     autoResetPageIndex: false,
