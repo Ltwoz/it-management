@@ -37,7 +37,7 @@ export default function Item({ level }: ItemProps) {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      submit({
+      await submit({
         public_url: values.imageUrl,
         level: level.level_code,
       });

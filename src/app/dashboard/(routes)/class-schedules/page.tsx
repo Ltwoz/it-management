@@ -12,7 +12,7 @@ export default async function ClassSchedule() {
       <div className="flex flex-col gap-y-2">
         <h1 className="text-2xl font-medium">ตารางเรียน</h1>
         <span className="text-base text-slate-700">
-          จัดการตารางเรียน ตามระดับชั้นและปีการศึกษา
+          จัดการตารางเรียน ตามระดับชั้น
         </span>
       </div>
       <div className="mt-4">

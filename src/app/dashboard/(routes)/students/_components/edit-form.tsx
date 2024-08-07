@@ -63,7 +63,6 @@ const formSchema = z.object({
 export type StudentType = z.infer<typeof formSchema>;
 
 export default function EditForm({ row }: EditFormProps) {
-  // console.log(row);
   const router = useRouter();
 
   const levels = useLevelsStore((state) => state.levels);
@@ -133,9 +132,9 @@ export default function EditForm({ row }: EditFormProps) {
         </Button>
       </DialogTrigger>
       <DialogContent>
+        <DialogTitle className="">แก้ไขข้อมูลนักศึกษา</DialogTitle>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogTitle className="">แก้ไขข้อมูลนักศึกษา</DialogTitle>
             <div className="grid gap-4 py-4">
               <FormField
                 control={form.control}

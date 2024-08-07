@@ -74,6 +74,33 @@ export type Database = {
         }
         Relationships: []
       }
+      faq: {
+        Row: {
+          answer: string
+          created_at: string
+          id: number
+          is_active: boolean
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          question?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       levels: {
         Row: {
           created_at: string

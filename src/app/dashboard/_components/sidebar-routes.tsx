@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, List, UsersRound } from "lucide-react";
+import { Calendar, CircleHelp, List, UsersRound } from "lucide-react";
 
 import SidebarItem from "./sidebar-item";
 
@@ -16,9 +16,24 @@ const adminRoutes = [
     href: "/dashboard/class-schedules",
   },
   {
+    icon: Calendar,
+    label: "ตารางกิจกรรม",
+    href: "/dashboard/activity-schedules",
+  },
+  {
+    icon: Calendar,
+    label: "ปฏิทินการศึกษา",
+    href: "/dashboard/college-calendar",
+  },
+  {
     icon: UsersRound,
     label: "นักศึกษา",
     href: "/dashboard/students",
+  },
+  {
+    icon: CircleHelp,
+    label: "คำถามที่พบบ่อย",
+    href: "/dashboard/faq",
   },
 ];
 
