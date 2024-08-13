@@ -101,6 +101,30 @@ export type Database = {
         }
         Relationships: []
       }
+      groups: {
+        Row: {
+          created_at: string
+          gid: string
+          id: number
+          image: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          gid: string
+          id?: number
+          image: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          gid?: string
+          id?: number
+          image?: string
+          name?: string
+        }
+        Relationships: []
+      }
       levels: {
         Row: {
           created_at: string
