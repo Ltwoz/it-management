@@ -6,10 +6,15 @@ import SidebarItem from "./sidebar-item";
 
 const adminRoutes = [
   {
-    icon: List,
-    label: "ระดับชั้น",
-    href: "/dashboard/levels",
+    icon: Group,
+    label: "กลุ่ม",
+    href: "/dashboard/groups",
   },
+  // {
+  //   icon: List,
+  //   label: "ระดับชั้น",
+  //   href: "/dashboard/levels",
+  // },
   {
     icon: Calendar,
     label: "ตารางเรียน",
@@ -34,11 +39,6 @@ const adminRoutes = [
     icon: CircleHelp,
     label: "คำถามที่พบบ่อย",
     href: "/dashboard/faq",
-  },
-  {
-    icon: Group,
-    label: "กลุ่ม",
-    href: "/dashboard/groups",
   },
 ];
 
