@@ -27,7 +27,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  title: z.string().min(1, { message: "กรุณาใส่หัวข้อกิจกรรม" }),
+  title: z
+    .string()
+    .min(1, { message: "กรุณาใส่หัวข้อกิจกรรม" })
+    .max(40, { message: "หัวข้อต้องมีความยาวไม่เกิน 40 ตัวอักษร" }),
 });
 
 type ActivityType = z.infer<typeof formSchema>;

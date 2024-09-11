@@ -27,9 +27,12 @@ interface TitleFormProps {
 }
 
 const formSchema = z.object({
-  title: z.string().min(1, {
-    message: "กรุณาใส่หัวข้อ",
-  }),
+  title: z
+    .string()
+    .min(1, {
+      message: "กรุณาใส่หัวข้อกิจกรรม",
+    })
+    .max(40, { message: "หัวข้อต้องมีความยาวไม่เกิน 40 ตัวอักษร" }),
 });
 
 type ActivityType = z.infer<typeof formSchema>;
@@ -102,7 +105,11 @@ const TitleForm = ({ initialData, activityId }: TitleFormProps) => {
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button disabled={!isValid || isSubmitting} type="submit" size="sm">
+              <Button
+                disabled={!isValid || isSubmitting}
+                type="submit"
+                size="sm"
+              >
                 บันทึก
               </Button>
             </div>
