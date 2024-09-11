@@ -6,7 +6,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Group } from "../actions/get-groups";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import ConfirmModal from "@/components/modals/confirm-modal";
 import LeaveButton from "./leave-button";
 
 export const columns: ColumnDef<Group>[] = [

@@ -25,39 +25,36 @@ import {
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
-  question: z.string().min(1, { message: "กรุณากรอกคำถาม" }),
-  answer: z.string().min(1, { message: "กรุณากรอกคำตอบ" }),
+  title: z.string().min(1, { message: "กรุณาใส่หัวข้อกิจกรรม" }),
 });
 
-type FaqType = z.infer<typeof formSchema>;
+type ActivityType = z.infer<typeof formSchema>;
 
 export default function CreateForm() {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
-  const form = useForm<FaqType>({
+  const form = useForm<ActivityType>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      question: "",
-      answer: "",
+      title: "",
     },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: FaqType) => {
+  const onSubmit = async (values: ActivityType) => {
     try {
       await create(values);
 
-      toast.success("เพิ่มคำถามแล้ว");
+      toast.success("เพิ่มกิจกรรมแล้ว");
       router.refresh();
     } catch {
-      toast.error("เกิดข้อผิดพลาดในการเพิ่มคำถาม");
+      toast.error("เกิดข้อผิดพลาดในการเพิ่มกิจกรรม");
     } finally {
       setOpen(false);
     }
@@ -72,39 +69,22 @@ export default function CreateForm() {
       }}
     >
       <DialogTrigger asChild>
-        <Button>เพิ่มคำถาม</Button>
+        <Button>เพิ่มกิจกรรม</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>เพิ่มคำถามที่พบบ่อย</DialogTitle>
+        <DialogTitle>เพิ่มกิจกรรม</DialogTitle>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
               <FormField
                 control={form.control}
-                name="question"
+                name="title"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <div className="flex flex-col gap-y-2">
-                        <Label htmlFor="question">คำถาม</Label>
+                        <Label htmlFor="title">หัวข้อ</Label>
                         <Input {...field} />
-                      </div>
-                    </FormControl>
-                    <div className="grid grid-cols-4">
-                      <FormMessage className="col-span-3" />
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="answer"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex flex-col gap-y-2">
-                        <Label htmlFor="answer">คำตอบ</Label>
-                        <Textarea {...field} />
                       </div>
                     </FormControl>
                     <div className="grid grid-cols-4">
@@ -116,7 +96,7 @@ export default function CreateForm() {
             </div>
             <DialogFooter>
               <Button type="submit" disabled={!isValid || isSubmitting}>
-                เพิ่มคำถาม
+                เพิ่มกิจกรรม
               </Button>
             </DialogFooter>
           </form>

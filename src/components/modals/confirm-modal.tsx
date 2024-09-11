@@ -23,14 +23,14 @@ const ConfirmModal = ({ children, onConfirm }: ConfirmModalProps) => {
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogTitle>แน่ใจแล้วใช่ไหม ?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone
+            หากยืนยันแล้วจะไม่สามารถยกเลิกได้
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
+          <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm}>ยืนยัน</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

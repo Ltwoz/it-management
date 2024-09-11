@@ -21,6 +21,11 @@ export const ourFileRouter = {
   })
     .middleware(async () => await handleAuth())
     .onUploadComplete(() => {}),
+  activityScheduleImage: f({
+    image: { maxFileSize: "8MB", maxFileCount: 1 },
+  })
+    .middleware(async () => await handleAuth())
+    .onUploadComplete(() => {}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

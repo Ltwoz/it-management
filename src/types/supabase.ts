@@ -9,21 +9,30 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      activity_schedule: {
+      activity_schedules: {
         Row: {
           created_at: string
+          description: string | null
           id: number
+          is_publish: boolean
           public_url: string | null
+          title: string
         }
         Insert: {
           created_at?: string
-          id: number
+          description?: string | null
+          id?: number
+          is_publish?: boolean
           public_url?: string | null
+          title: string
         }
         Update: {
           created_at?: string
+          description?: string | null
           id?: number
+          is_publish?: boolean
           public_url?: string | null
+          title?: string
         }
         Relationships: []
       }
