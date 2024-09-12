@@ -19,7 +19,7 @@ export type Database = {
           title: string
         }
         Insert: {
-          created_at: string
+          created_at?: string
           description?: string | null
           id?: number
           is_publish?: boolean
