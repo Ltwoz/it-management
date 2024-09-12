@@ -9,18 +9,17 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
-import { Activity } from "../../actions/get-activity";
-import { update } from "../../actions/update";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { update } from "../actions/update";
+import { CollegeCalendar } from "../actions/get-calendar";
 
-interface ImageFormProps {
-  initialData: Activity;
-  activityId: number;
+interface ItemProps {
+  initialData: CollegeCalendar;
 }
 
 const formSchema = z.object({
@@ -29,20 +28,20 @@ const formSchema = z.object({
   }),
 });
 
-type ActivityType = z.infer<typeof formSchema>;
+type FormType = z.infer<typeof formSchema>;
 
-const ImageForm = ({ initialData, activityId }: ImageFormProps) => {
+const Item = ({ initialData }: ItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((prev) => !prev);
 
   const router = useRouter();
 
-  const onSubmit = async (values: ActivityType) => {
+  const onSubmit = async (values: FormType) => {
     try {
       await update({
+        id: initialData.id,
         public_url: values.imageUrl,
-        id: activityId,
       });
 
       toast.success("แก้ไขรูปภาพแล้ว");
@@ -56,19 +55,19 @@ const ImageForm = ({ initialData, activityId }: ImageFormProps) => {
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        รูปภาพ
+        ปฏิทินการศึกษา
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && <>ยกเลิก</>}
           {!isEditing && !initialData.public_url && (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
-              เพิ่มรูปภาพ
+              เพิ่มปฏิทินการศึกษา
             </>
           )}
           {!isEditing && initialData.public_url && (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              แก้ไขรูปภาพ
+              แก้ไขปฏิทินการศึกษา
             </>
           )}
         </Button>
@@ -85,19 +84,17 @@ const ImageForm = ({ initialData, activityId }: ImageFormProps) => {
                 <Image
                   alt="Upload"
                   fill
-                  className="object-cover rounded-md"
+                  className="object-contain rounded-md"
                   src={initialData.public_url}
                 />
               </DialogTrigger>
               <DialogContent className="p-0 max-w-screen-lg">
-                <DialogTitle className="sr-only">
-                  รูปภาพของกิจกรรม {initialData.title}
-                </DialogTitle>
+                <DialogTitle className="sr-only">{initialData.id}</DialogTitle>
                 <div className="relative aspect-video">
                   <Image
                     alt="Class Schedule"
                     fill
-                    className="object-cover rounded-md"
+                    className="object-contain rounded-md"
                     src={initialData.public_url}
                   />
                 </div>
@@ -121,4 +118,4 @@ const ImageForm = ({ initialData, activityId }: ImageFormProps) => {
   );
 };
 
-export default ImageForm;
+export default Item;

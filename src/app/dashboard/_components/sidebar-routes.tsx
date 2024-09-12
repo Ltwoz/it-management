@@ -10,11 +10,6 @@ const adminRoutes = [
     label: "กลุ่ม",
     href: "/dashboard/groups",
   },
-  // {
-  //   icon: List,
-  //   label: "ระดับชั้น",
-  //   href: "/dashboard/levels",
-  // },
   {
     icon: Calendar,
     label: "ตารางเรียน",
@@ -30,11 +25,6 @@ const adminRoutes = [
     label: "ปฏิทินการศึกษา",
     href: "/dashboard/college-calendar",
   },
-  // {
-  //   icon: UsersRound,
-  //   label: "นักศึกษา",
-  //   href: "/dashboard/students",
-  // },
   {
     icon: CircleHelp,
     label: "คำถามที่พบบ่อย",

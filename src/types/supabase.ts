@@ -19,7 +19,7 @@ export type Database = {
           title: string
         }
         Insert: {
-          created_at?: string
+          created_at: string
           description?: string | null
           id?: number
           is_publish?: boolean
@@ -70,16 +70,19 @@ export type Database = {
           created_at: string
           id: number
           public_url: string | null
+          updated_at: string
         }
         Insert: {
-          created_at: string
-          id: number
+          created_at?: string
+          id?: number
           public_url?: string | null
+          updated_at?: string
         }
         Update: {
           created_at?: string
           id?: number
           public_url?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
