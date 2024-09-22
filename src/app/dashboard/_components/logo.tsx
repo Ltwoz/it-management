@@ -1,7 +1,8 @@
 import Image from "next/image";
 
 const Logo = () => {
-  return <Image height={130} width={130} alt="logo" src="/logo.svg" />;
+  return <div className="flex justify-center"> <Image height={90} width={90} alt="logo" src="/NewLogoCMTC.png" /> </div>
+  
 };
 
 export default Logo;
