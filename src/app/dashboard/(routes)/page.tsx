@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-6 md:px-10 py-10 relative">
-      
+       
       <div
         className="absolute inset-0 h-full w-full bg-transparent pointer-events-none"
         style={{
