@@ -23,7 +23,7 @@ export default function Home() {
           backgroundSize: '40px 40px',
         }}
       ></div>
-
+  
       <div
         className="absolute inset-0 h-full w-full pointer-events-none z-0"
         style={{
