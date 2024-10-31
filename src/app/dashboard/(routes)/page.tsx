@@ -30,7 +30,7 @@ export default function Home() {
           background: 'radial-gradient(circle, rgba(255, 255, 255, 1) 30%, transparent 85%)',
         }}
       ></div>
-
+ 
       <div className="relative z-10 w-full max-w-4xl text-black text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4">
           IT ADMIN MANAGEMENT
