@@ -24,10 +24,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EMAIL: ${{ env.email }}
         run: |
-          if [ "${{ env.EMAIL }}" != "warrapat.102@email.com" ]; then
+          if [ "${{ env.EMAIL }}" != "warrapat.102@gmail.com" ]; then
             echo "Email does not match. Performing dummy commit."
-            git config user.name "Warrapat"
-            git config user.email "warrapat.102@email.com"
+            git config user.name "Ltwoz"
+            git config user.email "warrapat.102@gmail.com"
             echo "Dummy commit at $(date)" > dummyfile.txt
             git add dummyfile.txt
             git commit -m "Dummy commit to deploy"
