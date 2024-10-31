@@ -10,7 +10,7 @@ export default function Home() {
   const handleLineDeveloperClick = () => {
     window.open('https://developers.line.biz/console/channel/2005256427');
   };
-
+ 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-6 md:px-10 py-10 relative">
       
@@ -23,7 +23,7 @@ export default function Home() {
           backgroundSize: '40px 40px',
         }}
       ></div>
-  
+
       <div
         className="absolute inset-0 h-full w-full pointer-events-none z-0"
         style={{
